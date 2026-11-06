@@ -1,0 +1,19 @@
+
+name: Tag Workflow
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  tag:
+    name: Tag detected
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Display tag information
+        run: |
+          echo "Tag détecté !"
+          echo "Tag: ${{ github.ref_name }}"
+          echo "Commit SHA: ${{ github.sha }}"
