@@ -2,7 +2,7 @@
 name: CI
 
 env:
-  APP_NAME: fastapi-starter
+  APP_NAME: FastAPI Starter
 
 on:
   push:
