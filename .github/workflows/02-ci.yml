@@ -1,6 +1,9 @@
 
 name: CI
 
+env:
+  APP_NAME: fastapi-starter
+
 on:
   push:
     branches:
@@ -74,3 +77,26 @@ jobs:
 
       - name: Run tests
         run: pytest
+
+  context:
+    name: Display GitHub contexts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Display environment and GitHub information
+        run: |
+          echo "Application: $APP_NAME"
+          echo "Actor: ${{ github.actor }}"
+          echo "Event: ${{ github.event_name }}"
+          echo "Branch or tag: ${{ github.ref_name }}"
+          echo "Commit SHA: ${{ github.sha }}"
+          echo "Runner OS: ${{ runner.os }}"
+
+      - name: Display Pull Request information
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "Head branch: ${{ github.head_ref }}"
+          echo "Base branch: ${{ github.base_ref }}"
+
+      - name: Display complete GitHub context
+        run: echo '${{ toJson(github) }}'
