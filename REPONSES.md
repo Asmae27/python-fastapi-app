@@ -20,3 +20,23 @@ GITHUB_ENV permet uniquement de partager des variables entre les steps d'un mêm
 ## Q5. Que se passe-t-il si vous retirez needs: build du job deploy ?
 
 Le job deploy ne dépend plus de build et peut donc s'exécuter indépendamment, éventuellement en parallèle. De plus, le contexte needs.build ne sera pas disponible correctement pour récupérer l'output du job build.
+
+
+
+# TP 7 – Actions tierces et actions personnalisées
+
+## Q1. Pourquoi actions/checkout n'a-t-il pas besoin de with alors que setup-node en a besoin ?
+
+actions/checkout utilise des paramètres par défaut pour récupérer le dépôt courant. En revanche, actions/setup-node utilise l'input node-version pour connaître la version de Node.js à installer. Dans ce TP, nous devons donc préciser node-version: 20 avec with.
+
+## Q2. Pourquoi le job verify ne retrouve-t-il pas report.txt sans l'artefact, alors que les deux jobs partagent le même dépôt ?
+
+Chaque job GitHub Actions s'exécute dans un environnement isolé avec son propre espace de travail. Les fichiers créés dans le job build ne sont donc pas automatiquement accessibles dans verify. L'artefact permet de transférer explicitement le fichier entre les jobs.
+
+## Q6. Pourquoi actions/checkout doit-il s'exécuter avant l'appel d'une action locale ?
+
+L'action locale se trouve dans le dépôt courant. actions/checkout récupère le contenu du dépôt dans l'espace de travail du runner. Il faut donc exécuter checkout avant d'appeler cette action.
+
+## Q7. Pourquoi shell: bash est-il obligatoire sur les steps run d'une action composite ?
+
+Dans une action composite, chaque step utilisant run doit préciser le shell à utiliser. shell: bash indique au runner d'exécuter les commandes avec Bash.
