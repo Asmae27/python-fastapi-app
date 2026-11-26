@@ -40,3 +40,41 @@ L'action locale se trouve dans le dépôt courant. actions/checkout récupère l
 ## Q7. Pourquoi shell: bash est-il obligatoire sur les steps run d'une action composite ?
 
 Dans une action composite, chaque step utilisant run doit préciser le shell à utiliser. shell: bash indique au runner d'exécuter les commandes avec Bash.
+
+
+
+# TP 8 – Stratégies GitHub Actions
+
+## Q1. Combien de jobs sont générés ? Donnez la liste des combinaisons.
+
+La matrice initiale génère 6 jobs :
+
+1. ubuntu-latest avec Python 3.11
+2. ubuntu-latest avec Python 3.12
+3. ubuntu-latest avec Python 3.13
+4. windows-latest avec Python 3.11
+5. windows-latest avec Python 3.12
+6. windows-latest avec Python 3.13
+
+## Q2. Combien de jobs au total après exclude et include ?
+
+Il y a 6 jobs au total.
+
+La matrice initiale contient 6 combinaisons. L'exclusion de Windows avec Python 3.11 réduit le nombre à 5. Ensuite, include ajoute Ubuntu avec Python 3.14, ce qui donne 6 jobs.
+
+## Q3. Que se passerait-il si vous tentiez d'exclure la combinaison 3.14 ? Pourquoi ?
+
+La combinaison Python 3.14 ajoutée avec include ne serait pas supprimée par cette règle. En effet, exclude est appliqué avant include. La combinaison 3.14 est ajoutée après l'application des exclusions.
+
+## Q4. Quelle est la différence entre fail-fast true et false ?
+
+Avec fail-fast: true, l'échec d'un job peut provoquer l'annulation des autres jobs de la matrice encore en cours ou en attente.
+
+Avec fail-fast: false, les autres jobs continuent leur exécution même lorsqu'un job échoue.
+
+J'utiliserais true pour arrêter rapidement un pipeline en cas d'échec et false pour obtenir les résultats de toutes les configurations testées.
+
+## Q5. Donnez deux raisons d'utiliser max-parallel en entreprise.
+
+1. Limiter la consommation des ressources et maîtriser les coûts des runners.
+2. Éviter de surcharger l'infrastructure CI/CD en contrôlant le nombre de jobs exécutés simultanément.
