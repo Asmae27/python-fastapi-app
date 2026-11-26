@@ -8,8 +8,8 @@ jobs:
   test:
     runs-on: ${{ matrix.os }}
 
-    
     strategy:
+      fail-fast: true
       matrix:
         os:
           - ubuntu-latest
@@ -30,7 +30,7 @@ jobs:
             experimental: true
 
     continue-on-error: ${{ matrix.experimental == true }}
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
